@@ -4,22 +4,22 @@
   <meta charset="utf-8">
   
   
-  <title>大语言模型训练流程 | 第一篇文章</title>
+  <title>大语言模型训练流程 | 大预言模型训练流程</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="大语言模型训练流程1. 数据集整理1.1 收集数据来源：从网上提供的公开的数据中获取。 类型：一般包括文本数据，如文章、对话记录等。 1.2 清理数据去除噪声：删除重复、错误或无关的内容。 标准化：统一格式，例如将所有文本转换为小写。 标注数据：对数据进行标注，如情感分类或实体识别。 1.3 划分数据集训练集：用于训练模型，通常占总数据的70%-80%。 验证集：用于调整模型参数，占总数据的10%">
+  <meta name="description" content="第一阶段：PT（增量预训练）目的：在海量领域的特定文档数据上进行二次预训练，适应领域数据分布。 数据集形式：主要包含特定领域文档数据，在这个项目中有医学文献、医疗记录、研究报告等。 示例： “患者，女，35岁，主诉头痛伴恶心，病史3年……”“研究表明，某药物对高血压患者具有显著疗效……”* 第二阶段：SFT（有监督微调）目的：在预训练模型的基础上，通过有监督的微调，使模型能够更好地理解和执行特定指">
 <meta property="og:type" content="article">
 <meta property="og:title" content="大语言模型训练流程">
 <meta property="og:url" content="http://example.com/2024/08/05/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/index.html">
-<meta property="og:site_name" content="第一篇文章">
-<meta property="og:description" content="大语言模型训练流程1. 数据集整理1.1 收集数据来源：从网上提供的公开的数据中获取。 类型：一般包括文本数据，如文章、对话记录等。 1.2 清理数据去除噪声：删除重复、错误或无关的内容。 标准化：统一格式，例如将所有文本转换为小写。 标注数据：对数据进行标注，如情感分类或实体识别。 1.3 划分数据集训练集：用于训练模型，通常占总数据的70%-80%。 验证集：用于调整模型参数，占总数据的10%">
+<meta property="og:site_name" content="大预言模型训练流程">
+<meta property="og:description" content="第一阶段：PT（增量预训练）目的：在海量领域的特定文档数据上进行二次预训练，适应领域数据分布。 数据集形式：主要包含特定领域文档数据，在这个项目中有医学文献、医疗记录、研究报告等。 示例： “患者，女，35岁，主诉头痛伴恶心，病史3年……”“研究表明，某药物对高血压患者具有显著疗效……”* 第二阶段：SFT（有监督微调）目的：在预训练模型的基础上，通过有监督的微调，使模型能够更好地理解和执行特定指">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-08-05T09:09:30.000Z">
-<meta property="article:modified_time" content="2024-08-06T02:53:24.942Z">
+<meta property="article:modified_time" content="2024-08-06T04:28:52.625Z">
 <meta property="article:author" content="lzy">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="第一篇文章" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="大预言模型训练流程" type="application/atom+xml">
   
   
     <link rel="shortcut icon" href="/favicon.png">
@@ -44,7 +44,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">第一篇文章</a>
+        <a href="/" id="logo">大预言模型训练流程</a>
       </h1>
       
     </div>
@@ -94,38 +94,63 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="大语言模型训练流程"><a href="#大语言模型训练流程" class="headerlink" title="大语言模型训练流程"></a>大语言模型训练流程</h1><h2 id="1-数据集整理"><a href="#1-数据集整理" class="headerlink" title="1. 数据集整理"></a>1. 数据集整理</h2><h3 id="1-1-收集数据"><a href="#1-1-收集数据" class="headerlink" title="1.1 收集数据"></a>1.1 收集数据</h3><p><strong>来源</strong>：从网上提供的公开的数据中获取。</p>
-<p><strong>类型</strong>：一般包括文本数据，如文章、对话记录等。</p>
-<h3 id="1-2-清理数据"><a href="#1-2-清理数据" class="headerlink" title="1.2 清理数据"></a>1.2 清理数据</h3><p><strong>去除噪声</strong>：删除重复、错误或无关的内容。</p>
-<p><strong>标准化</strong>：统一格式，例如将所有文本转换为小写。</p>
-<p><strong>标注数据</strong>：对数据进行标注，如情感分类或实体识别。</p>
-<h3 id="1-3-划分数据集"><a href="#1-3-划分数据集" class="headerlink" title="1.3 划分数据集"></a>1.3 划分数据集</h3><p><strong>训练集</strong>：用于训练模型，通常占总数据的70%-80%。</p>
-<p><strong>验证集</strong>：用于调整模型参数，占总数据的10%-15%。</p>
-<p><strong>测试集</strong>：用于最终评估模型性能，占总数据的10%-15%。</p>
-<h2 id="2-构建模型"><a href="#2-构建模型" class="headerlink" title="2. 构建模型"></a>2. 构建模型</h2><h3 id="2-1-选择模型架构"><a href="#2-1-选择模型架构" class="headerlink" title="2.1 选择模型架构"></a>2.1 选择模型架构</h3><p><strong>模型类型</strong>：选择合适的模型架构，如 Transformer、GPT 或 BERT。</p>
-<p><strong>模型层数</strong>：决定模型的深度。</p>
-<p><strong>隐藏层维度</strong>：决定模型的宽度。</p>
-<h3 id="2-2-定义损失函数"><a href="#2-2-定义损失函数" class="headerlink" title="2.2 定义损失函数"></a>2.2 定义损失函数</h3><p><strong>损失函数</strong>：用于衡量模型输出与实际结果之间的差距，如交叉熵损失函数。</p>
-<h3 id="2-3-选择优化器"><a href="#2-3-选择优化器" class="headerlink" title="2.3 选择优化器"></a>2.3 选择优化器</h3><p><strong>优化器</strong>：如 Adam 或 SGD，用于更新模型的参数。</p>
-<h2 id="3-训练模型"><a href="#3-训练模型" class="headerlink" title="3. 训练模型"></a>3. 训练模型</h2><h3 id="3-1-初始训练"><a href="#3-1-初始训练" class="headerlink" title="3.1 初始训练"></a>3.1 初始训练</h3><p><strong>设置超参数</strong>：选择学习率、批次大小等参数。</p>
-<p><strong>训练过程</strong>：将数据输入模型，通过反向传播算法更新模型参数。</p>
-<h3 id="3-2-验证和调参"><a href="#3-2-验证和调参" class="headerlink" title="3.2 验证和调参"></a>3.2 验证和调参</h3><p><strong>验证模型</strong>：在验证集上评估模型性能，检查准确率等指标。</p>
-<p><strong>调整参数</strong>：根据验证结果调整超参数，以提高模型性能。</p>
-<h3 id="3-3-训练调整"><a href="#3-3-训练调整" class="headerlink" title="3.3 训练调整"></a>3.3 训练调整</h3><p><strong>早停</strong>：如果验证集上的性能没有改善，提前停止训练，以防过拟合。</p>
-<p><strong>保存模型</strong>：保存训练好的模型参数和状态。</p>
-<h2 id="4-评估模型"><a href="#4-评估模型" class="headerlink" title="4. 评估模型"></a>4. 评估模型</h2><h3 id="4-1-测试集评估"><a href="#4-1-测试集评估" class="headerlink" title="4.1 测试集评估"></a>4.1 测试集评估</h3><p><strong>评估指标</strong>：计算模型在测试集上的准确率、召回率等指标。</p>
-<p><strong>分析性能</strong>：查看模型的强项和弱点。</p>
-<h3 id="4-2-错误分析"><a href="#4-2-错误分析" class="headerlink" title="4.2 错误分析"></a>4.2 错误分析</h3><p><strong>错误类型</strong>：分析模型的错误，找出模型的不足之处。</p>
-<p><strong>改进计划</strong>：根据错误分析结果，改进数据处理或模型结构。</p>
-<h2 id="5-部署与应用"><a href="#5-部署与应用" class="headerlink" title="5. 部署与应用"></a>5. 部署与应用</h2><h3 id="5-1-模型部署"><a href="#5-1-模型部署" class="headerlink" title="5.1 模型部署"></a>5.1 模型部署</h3><p><strong>选择平台</strong>：选择适合的部署平台，如云服务或本地服务器。</p>
-<p><strong>创建接口</strong>：为模型创建 API 接口，使应用程序可以调用模型。</p>
-<h3 id="5-2-监控与维护"><a href="#5-2-监控与维护" class="headerlink" title="5.2 监控与维护"></a>5.2 监控与维护</h3><p><strong>监控模型</strong>：跟踪模型在实际应用中的表现。</p>
-<p><strong>定期更新</strong>：根据新的数据对模型进行更新和再训练。</p>
+        <h3 id="第一阶段：PT（增量预训练）"><a href="#第一阶段：PT（增量预训练）" class="headerlink" title="第一阶段：PT（增量预训练）"></a>第一阶段：PT（增量预训练）</h3><p><strong>目的</strong>：在海量领域的特定文档数据上进行二次预训练，适应领域数据分布。</p>
+<p><strong>数据集形式</strong>：主要包含特定领域文档数据，在这个项目中有医学文献、医疗记录、研究报告等。</p>
+<p><strong>示例</strong>：</p>
+<p><code>“患者，女，35岁，主诉头痛伴恶心，病史3年……”</code><br><code>“研究表明，某药物对高血压患者具有显著疗效……”*</code></p>
+<h3 id="第二阶段：SFT（有监督微调）"><a href="#第二阶段：SFT（有监督微调）" class="headerlink" title="第二阶段：SFT（有监督微调）"></a>第二阶段：SFT（有监督微调）</h3><p><strong>目的</strong>：在预训练模型的基础上，通过有监督的微调，使模型能够更好地理解和执行特定指令，同时注入领域知识，以确保模型能够准确地响应领域相关的指令和问题。</p>
+<p><strong>数据集形式</strong>：数据集包括成对的<strong>输入指令</strong>（prompt）和<strong>预期输出</strong>（responses），这些数据通常由人工标注，确保高质量和准确性。</p>
+<p><strong>示例</strong>：</p>
+<p><code>&#123;``     &quot;instruction&quot;: &quot;描述糖尿病的常见症状。&quot;, </code></p>
+<p><code>   &quot;response&quot;: &quot;糖尿病的常见症状包括多饮、多尿、多食和体重减轻。&quot;  &#125;</code></p>
+<h3 id="第三阶段：RLHF（基于人类反馈对语言模型进行强化学习）"><a href="#第三阶段：RLHF（基于人类反馈对语言模型进行强化学习）" class="headerlink" title="第三阶段：RLHF（基于人类反馈对语言模型进行强化学习）"></a>第三阶段：RLHF（基于人类反馈对语言模型进行强化学习）</h3><p><strong>目的</strong>：基于人类反馈对语言模型进行强化学习，主要分为两步：</p>
+<h4 id="RM（奖励模型建模）"><a href="#RM（奖励模型建模）" class="headerlink" title="RM（奖励模型建模）"></a>RM（奖励模型建模）</h4><p><strong>目的</strong>：训练一个奖励模型来量化模型输出与人类偏好之间的匹配程度，从而指导强化学习阶段的训练。</p>
+<p><strong>数据集形式</strong>：奖励模型建模的数据集主要包含对<strong>同一提示语</strong>生成的<strong>多个响应</strong>，这些响应会根据人类偏好进行排序或评分。数据集通常包含以下几部分：</p>
+<p>  <strong>Prompt</strong>：模型接收到的输入指令或问题。</p>
+<p>  <strong>Responses</strong>：模型生成的多个响应。</p>
+<p>  <strong>Ranking</strong>：对各个响应的排序，根据人类的偏好进行排序，排名越高表示响应越好。</p>
+<p>  <strong>Annotations</strong>：具体的人类评价，解释为什么一个响应比另一个更好。</p>
+<p><strong>示例</strong>：</p>
+<p><code>&#123;</code> </p>
+<p> <code>&quot;prompt&quot;: &quot;解释心脏病的发病机制。&quot;,</code> </p>
+<p> <code>&quot;responses&quot;: [    &#123;      &quot;text&quot;: &quot;心脏病是由于心肌缺血引起的，这种情况通常是由冠状动脉的阻塞导致的。&quot;,</code>           </p>
+<p>  <code>&quot;ranking&quot; : 1</code></p>
+<p>  <code>&quot;annotations&quot;: &quot;详细描述了心脏病的具体原因，信息准确且简明。&quot;    &#125;,</code></p>
+<h4 id="RL（强化学习）"><a href="#RL（强化学习）" class="headerlink" title="RL（强化学习）"></a>RL（强化学习）</h4><p><strong>目的</strong>：利用奖励模型（Reward Model）来进一步训练有监督微调（SFT）模型，生成更高质量、更符合人类偏好的文本。</p>
+<p><strong>数据集形式</strong>：使用奖励模型来训练SFT模型的数据。包含这几部分：</p>
+<p>  <strong>Prompt</strong>：模型接收到的输入指令或问题。</p>
+<p>  <strong>Response</strong>：模型生成的响应。</p>
+<p>  <strong>Reward</strong>：基于奖励模型对生成响应的评分或奖励值。</p>
+<p><strong>示例</strong></p>
+<p><code>&#123;</code><br>  <code>&quot;prompt&quot;: &quot;如何预防流感？&quot;,</code><br>  <code>&quot;response&quot;: &quot;预防流感的有效方法包括接种流感疫苗，勤洗手，避免与流感患者密切接触，保持良好的个人卫生习惯。&quot;,</code><br>  <code>&quot;reward&quot;: 0.85</code><br><code>&#125;</code></p>
+<h3 id="DPO（直接偏好优化方法）"><a href="#DPO（直接偏好优化方法）" class="headerlink" title="DPO（直接偏好优化方法）"></a>DPO（直接偏好优化方法）</h3><p><strong>目的</strong>：通过直接优化语言模型以实现对其行为的精确控制，而无需使用复杂的强化学习方法。DPO旨在通过优化模型生成的响应以更好地对齐人类偏好，从而简化训练过程并提高效果。</p>
+<p><strong>数据集形式</strong>：指令与偏好反馈对照数据集。数据集格式如下：</p>
+<ol>
+<li><p><strong>Prompt</strong>：模型接收到的输入指令或问题。</p>
+<p>2.<strong>Responses</strong>：模型生成的多个响应。</p>
+<p>3.<strong>Preferences</strong>：人类对每个响应的偏好评分或排序，以反映响应的质量和符合度。</p>
+</li>
+</ol>
+<p><strong>示例</strong>：</p>
+<p> <code>&#123;</code></p>
+<p>  <code>&quot;prompt&quot;: &quot;如何预防心脏病？&quot;,</code> </p>
+<p>  <code>&quot;responses&quot;: [</code>  </p>
+<p>  <code>&#123;</code>     </p>
+<p>   <code>&quot;text&quot;: &quot;预防心脏病的方法包括健康饮食、定期锻炼、控制体重和戒烟。&quot;,</code>    </p>
+<p>   <code>&quot;preference&quot;: 0.9</code>  </p>
+<p>  <code>&#125;,</code></p>
+<h3 id="ORPO（不需要参考模型的优化方法）"><a href="#ORPO（不需要参考模型的优化方法）" class="headerlink" title="ORPO（不需要参考模型的优化方法）"></a>ORPO（不需要参考模型的优化方法）</h3><p><strong>目的</strong>：ORPO方法旨在通过直接优化模型响应以符合人类偏好，无需参考模型进行优化。通过ORPO，语言模型（LLM）能够同时学习指令遵循和满足人类偏好，简化训练过程并提高效果。</p>
+<p><strong>数据集形式</strong>：指令与人类偏好数据集。主要包含以下部分：</p>
+<p>   1.<strong>Prompt</strong>：模型接收到的输入指令或问题。</p>
+<p>   2.<strong>Responses</strong>：模型生成的多个响应。</p>
+<p>   3.<strong>Preferences</strong>：对每个响应的偏好评分或排序，以反映响应的质量和符合度。</p>
+<p><strong>示例</strong>：</p>
+<p><code>&#123;</code><br>  <code>&quot;prompt&quot;: &quot;如何预防流感？&quot;,</code><br>  <code>&quot;responses&quot;: [</code><br>    <code>&#123;</code><br>      <code>&quot;text&quot;: &quot;预防流感的方法包括接种流感疫苗、勤洗手、避免与流感患者密切接触、保持良好的个人卫生习惯。&quot;,</code><br>      <code>&quot;preference&quot;: 0.9</code><br>    <code>&#125;,</code><br>    <code>&#123;</code><br>      <code>&quot;text&quot;: &quot;流感的预防可以通过疫苗接种和良好的卫生习惯。&quot;,</code><br>      <code>&quot;preference&quot;: 0.75</code><br>    <code>&#125;</code><br>  <code>]</code><br><code>&#125;</code></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/08/05/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/" data-id="clzhtt7qg0002qsvcc2pwgkf3" data-title="大语言模型训练流程" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/08/05/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/" data-id="clzhx9jiw0001novc980w8md2" data-title="大语言模型训练流程" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
