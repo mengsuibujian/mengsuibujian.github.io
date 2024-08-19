@@ -4,14 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>大预言模型训练流程</title>
+  <title>大语言模型的训练MedicalGPT | 大预言模型训练流程</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="大预言模型训练流程">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="准备工作参考链接：MedicalGPT&#x2F;run_training_dpo_pipeline.ipynb at main · shibing624&#x2F;MedicalGPT (github.com) step1：使用远程GPU  登录AutoDL在其中创建实例，记下主机号和端口号，下载配置好Xshell后进行连接：1.输入主机号和端口号，将AutoDL中的密码复制过来以允许链接，用户">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大语言模型的训练MedicalGPT">
+<meta property="og:url" content="http://example.com/2024/08/19/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%AD%E7%BB%83MedicalGPT/index.html">
 <meta property="og:site_name" content="大预言模型训练流程">
+<meta property="og:description" content="准备工作参考链接：MedicalGPT&#x2F;run_training_dpo_pipeline.ipynb at main · shibing624&#x2F;MedicalGPT (github.com) step1：使用远程GPU  登录AutoDL在其中创建实例，记下主机号和端口号，下载配置好Xshell后进行连接：1.输入主机号和端口号，将AutoDL中的密码复制过来以允许链接，用户">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-08-19T02:58:54.000Z">
+<meta property="article:modified_time" content="2024-08-19T03:03:42.514Z">
 <meta property="article:author" content="lzy">
+<meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="大预言模型训练流程" type="application/atom+xml">
@@ -67,9 +72,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="about-大语言模型的训练MedicalGPT" class="h-entry article article-type-about" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="about-大语言模型的训练MedicalGPT" class="h-entry article article-type-about" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2024/08/19/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%AD%E7%BB%83MedicalGPT/" class="article-date">
   <time class="dt-published" datetime="2024-08-19T02:58:54.000Z" itemprop="datePublished">2024-08-19</time>
@@ -82,8 +85,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/08/19/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%AD%E7%BB%83MedicalGPT/">大语言模型的训练MedicalGPT</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      大语言模型的训练MedicalGPT
     </h1>
   
 
@@ -189,154 +192,19 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="about-第一篇文章" class="h-entry article article-type-about" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/08/05/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/" class="article-date">
-  <time class="dt-published" datetime="2024-08-05T09:09:30.000Z" itemprop="datePublished">2024-08-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/08/05/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/">大语言模型训练流程</a>
-    </h1>
+    <a href="/2024/08/05/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">大语言模型训练流程</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="第一阶段：PT（增量预训练）"><a href="#第一阶段：PT（增量预训练）" class="headerlink" title="第一阶段：PT（增量预训练）"></a>第一阶段：PT（增量预训练）</h3><p><strong>目的</strong>：在海量领域的特定文档数据上进行二次预训练，适应领域数据分布。</p>
-<p><strong>数据集形式</strong>：主要包含特定领域文档数据，在这个项目中有医学文献、医疗记录、研究报告等。</p>
-<p><strong>示例</strong>：</p>
-<p><code>“患者，女，35岁，主诉头痛伴恶心，病史3年……”</code><br><code>“研究表明，某药物对高血压患者具有显著疗效……”*</code></p>
-<h3 id="第二阶段：SFT（有监督微调）"><a href="#第二阶段：SFT（有监督微调）" class="headerlink" title="第二阶段：SFT（有监督微调）"></a>第二阶段：SFT（有监督微调）</h3><p><strong>目的</strong>：在预训练模型的基础上，通过有监督的微调，使模型能够更好地理解和执行特定指令，同时注入领域知识，以确保模型能够准确地响应领域相关的指令和问题。</p>
-<p><strong>数据集形式</strong>：数据集包括成对的<strong>输入指令</strong>（prompt）和<strong>预期输出</strong>（responses），这些数据通常由人工标注，确保高质量和准确性。</p>
-<p><strong>示例</strong>：</p>
-<p><code>&#123;``     &quot;instruction&quot;: &quot;描述糖尿病的常见症状。&quot;, </code></p>
-<p><code>   &quot;response&quot;: &quot;糖尿病的常见症状包括多饮、多尿、多食和体重减轻。&quot;  &#125;</code></p>
-<h3 id="第三阶段：RLHF（基于人类反馈对语言模型进行强化学习）"><a href="#第三阶段：RLHF（基于人类反馈对语言模型进行强化学习）" class="headerlink" title="第三阶段：RLHF（基于人类反馈对语言模型进行强化学习）"></a>第三阶段：RLHF（基于人类反馈对语言模型进行强化学习）</h3><p><strong>目的</strong>：基于人类反馈对语言模型进行强化学习，主要分为两步：</p>
-<h4 id="RM（奖励模型建模）"><a href="#RM（奖励模型建模）" class="headerlink" title="RM（奖励模型建模）"></a>RM（奖励模型建模）</h4><p><strong>目的</strong>：训练一个奖励模型来量化模型输出与人类偏好之间的匹配程度，从而指导强化学习阶段的训练。</p>
-<p><strong>数据集形式</strong>：奖励模型建模的数据集主要包含对<strong>同一提示语</strong>生成的<strong>多个响应</strong>，这些响应会根据人类偏好进行排序或评分。数据集通常包含以下几部分：</p>
-<p>  <strong>Prompt</strong>：模型接收到的输入指令或问题。</p>
-<p>  <strong>Responses</strong>：模型生成的多个响应。</p>
-<p>  <strong>Ranking</strong>：对各个响应的排序，根据人类的偏好进行排序，排名越高表示响应越好。</p>
-<p>  <strong>Annotations</strong>：具体的人类评价，解释为什么一个响应比另一个更好。</p>
-<p><strong>示例</strong>：</p>
-<p><code>&#123;</code> </p>
-<p> <code>&quot;prompt&quot;: &quot;解释心脏病的发病机制。&quot;,</code> </p>
-<p> <code>&quot;responses&quot;: [    &#123;      &quot;text&quot;: &quot;心脏病是由于心肌缺血引起的，这种情况通常是由冠状动脉的阻塞导致的。&quot;,</code>           </p>
-<p>  <code>&quot;ranking&quot; : 1</code></p>
-<p>  <code>&quot;annotations&quot;: &quot;详细描述了心脏病的具体原因，信息准确且简明。&quot;    &#125;,</code></p>
-<h4 id="RL（强化学习）"><a href="#RL（强化学习）" class="headerlink" title="RL（强化学习）"></a>RL（强化学习）</h4><p><strong>目的</strong>：利用奖励模型（Reward Model）来进一步训练有监督微调（SFT）模型，生成更高质量、更符合人类偏好的文本。</p>
-<p><strong>数据集形式</strong>：使用奖励模型来训练SFT模型的数据。包含这几部分：</p>
-<p>  <strong>Prompt</strong>：模型接收到的输入指令或问题。</p>
-<p>  <strong>Response</strong>：模型生成的响应。</p>
-<p>  <strong>Reward</strong>：基于奖励模型对生成响应的评分或奖励值。</p>
-<p><strong>示例</strong></p>
-<p><code>&#123;</code><br>  <code>&quot;prompt&quot;: &quot;如何预防流感？&quot;,</code><br>  <code>&quot;response&quot;: &quot;预防流感的有效方法包括接种流感疫苗，勤洗手，避免与流感患者密切接触，保持良好的个人卫生习惯。&quot;,</code><br>  <code>&quot;reward&quot;: 0.85</code><br><code>&#125;</code></p>
-<h3 id="DPO（直接偏好优化方法）"><a href="#DPO（直接偏好优化方法）" class="headerlink" title="DPO（直接偏好优化方法）"></a>DPO（直接偏好优化方法）</h3><p><strong>目的</strong>：通过直接优化语言模型以实现对其行为的精确控制，而无需使用复杂的强化学习方法。DPO旨在通过优化模型生成的响应以更好地对齐人类偏好，从而简化训练过程并提高效果。</p>
-<p><strong>数据集形式</strong>：指令与偏好反馈对照数据集。数据集格式如下：</p>
-<ol>
-<li><p><strong>Prompt</strong>：模型接收到的输入指令或问题。</p>
-<p>2.<strong>Responses</strong>：模型生成的多个响应。</p>
-<p>3.<strong>Preferences</strong>：人类对每个响应的偏好评分或排序，以反映响应的质量和符合度。</p>
-</li>
-</ol>
-<p><strong>示例</strong>：</p>
-<p> <code>&#123;</code></p>
-<p>  <code>&quot;prompt&quot;: &quot;如何预防心脏病？&quot;,</code> </p>
-<p>  <code>&quot;responses&quot;: [</code>  </p>
-<p>  <code>&#123;</code>     </p>
-<p>   <code>&quot;text&quot;: &quot;预防心脏病的方法包括健康饮食、定期锻炼、控制体重和戒烟。&quot;,</code>    </p>
-<p>   <code>&quot;preference&quot;: 0.9</code>  </p>
-<p>  <code>&#125;,</code></p>
-<h3 id="ORPO（不需要参考模型的优化方法）"><a href="#ORPO（不需要参考模型的优化方法）" class="headerlink" title="ORPO（不需要参考模型的优化方法）"></a>ORPO（不需要参考模型的优化方法）</h3><p><strong>目的</strong>：ORPO方法旨在通过直接优化模型响应以符合人类偏好，无需参考模型进行优化。通过ORPO，语言模型（LLM）能够同时学习指令遵循和满足人类偏好，简化训练过程并提高效果。</p>
-<p><strong>数据集形式</strong>：指令与人类偏好数据集。主要包含以下部分：</p>
-<p>   1.<strong>Prompt</strong>：模型接收到的输入指令或问题。</p>
-<p>   2.<strong>Responses</strong>：模型生成的多个响应。</p>
-<p>   3.<strong>Preferences</strong>：对每个响应的偏好评分或排序，以反映响应的质量和符合度。</p>
-<p><strong>示例</strong>：</p>
-<p><code>&#123;</code><br>  <code>&quot;prompt&quot;: &quot;如何预防流感？&quot;,</code><br>  <code>&quot;responses&quot;: [</code><br>    <code>&#123;</code><br>      <code>&quot;text&quot;: &quot;预防流感的方法包括接种流感疫苗、勤洗手、避免与流感患者密切接触、保持良好的个人卫生习惯。&quot;,</code><br>      <code>&quot;preference&quot;: 0.9</code><br>    <code>&#125;,</code><br>    <code>&#123;</code><br>      <code>&quot;text&quot;: &quot;流感的预防可以通过疫苗接种和良好的卫生习惯。&quot;,</code><br>      <code>&quot;preference&quot;: 0.75</code><br>    <code>&#125;</code><br>  <code>]</code><br><code>&#125;</code></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/08/05/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/" data-id="cm00erq760002qcvcdaoferj3" data-title="大语言模型训练流程" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8E%9F%E5%88%9B/" rel="tag">原创</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/08/05/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2024-08-05T09:01:53.609Z" itemprop="datePublished">2024-08-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/08/05/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/08/05/hello-world/" data-id="cm00erq6z0001qcvc8uhh2s56" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
 </section>
